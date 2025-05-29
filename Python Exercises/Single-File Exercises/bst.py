@@ -1,5 +1,6 @@
 """Binary Search Tree Implementation"""
 from collections import deque
+from pathlib import Path
 from graphviz import Digraph
 
 
@@ -223,8 +224,14 @@ class BinarySearchTree:
 
 def main():
     """Interactive main program for user-driven BST operations"""
-    bst = BinarySearchTree()
+    user_dir = input(
+        "Enter output directory for Graphviz images "
+        "(leave blank for current directory): "
+    ).strip()
+    output_dir = Path(user_dir) if user_dir else Path.cwd()
+    output_dir.mkdir(parents=True, exist_ok=True)
 
+    bst = BinarySearchTree()
     print("== Binary Search Tree Program ==")
 
     # Insert values
@@ -245,7 +252,7 @@ def main():
 
     print("\nTree structure after insertion:")
     bst.render_graphviz(
-        filename=r"C:\Users\lwmcc\Downloads\bst_graphviz_before"
+        filename=output_dir / "bst_graphviz_before"
     )
 
     print("\nTraversals:")
@@ -294,7 +301,7 @@ def main():
 
     print("\nTree structure after deletion:")
     bst.render_graphviz(
-        filename=r"C:\Users\lwmcc\Downloads\bst_graphviz_after"
+        filename=output_dir / "bst_graphviz_after"
     )
 
     # Final state
