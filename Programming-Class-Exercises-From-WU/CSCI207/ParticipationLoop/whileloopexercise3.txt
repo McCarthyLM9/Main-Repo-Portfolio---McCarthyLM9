@@ -1,0 +1,8 @@
+The logical expression associated with the while loop is evaluated _______________.
+a. before any of the statements in the loop
+b. after any of the statements in the loop
+c. after the first statement in the loop
+d. before the last statement in the loop
+e. right in the middle of the loop
+
+Answer: A

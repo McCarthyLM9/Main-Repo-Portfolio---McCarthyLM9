@@ -1,0 +1,27 @@
+4: The Road Not Taken
+3: By Robert Frost  
+0: 
+7: Two roads diverged in a yellow wood,
+7: And sorry I could not travel both
+7: And be one traveler, long I stood
+9: And looked down one as far as I could
+7: To where it bent in the undergrowth;
+0: 
+8: Then took the other, as just as fair,
+6: And having perhaps the better claim
+7: Because it was grassy and wanted wear,
+7: Though as for that the passing there
+7: Had worn them really about the same,
+0: 
+6: And both that morning equally lay
+7: In leaves no step had trodden black.
+8: Oh, I kept the first for another day!
+8: Yet knowing how way leads on to way
+8: I doubted if I should ever come back.
+0: 
+8: I shall be telling this with a sigh
+5: Somewhere ages and ages hence:
+8: Two roads diverged in a wood, and I,
+7: I took the one less traveled by,
+7: And that has made all the difference
+0: 
