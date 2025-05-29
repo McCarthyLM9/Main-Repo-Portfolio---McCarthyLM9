@@ -217,11 +217,9 @@ class BinarySearchTree:
         dot.render(filename, view=view)  # Saves and optionally opens image
         print(f"Graph rendered to {filename}.png")
 
-# =======================
-# Example Usage
-# =======================
 
-
+# Main functionality for user interaction and bst implementation
+# Utilizes Graphviz visualization before/after operations
 def main():
     """Interactive main program for user-driven BST operations"""
     user_dir = input(
