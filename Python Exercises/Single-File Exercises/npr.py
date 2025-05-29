@@ -25,7 +25,7 @@ def npr(n, r):
     Returns:
         float: The number of permutations
     """
-    return factorial(n) / factorial(n - r)
+    return factorial(n) // factorial(n - r)
 
 
 def main():
