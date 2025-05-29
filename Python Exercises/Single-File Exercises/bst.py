@@ -180,6 +180,19 @@ class BinarySearchTree:
                 result.append(level)
         return result
 
+    # Balanced Insert Order
+    def balanced_insert_order(self, sorted_values):
+        """Insert values in a auto-balanced manner"""
+        if not sorted_values:
+            return []
+        mid = len(sorted_values) // 2
+        return (
+            [sorted_values[mid]]
+            + self.balanced_insert_order(sorted_values[:mid])
+            + self.balanced_insert_order(sorted_values[mid + 1:])
+        )
+
+    # Render Graphviz
     def render_graphviz(self, filename="bst_graphviz", view=False):
         """Render the BST using Graphviz"""
         if not self.root:
@@ -223,7 +236,9 @@ def main():
             break
         try:
             values = [int(val.strip()) for val in user_input.split(',')]
-            for val in values:
+            values.sort()
+            balanced_values = bst.balanced_insert_order(values)
+            for val in balanced_values:
                 bst.insert(val)
         except ValueError:
             print("Invalid input. Please enter integers only.")
