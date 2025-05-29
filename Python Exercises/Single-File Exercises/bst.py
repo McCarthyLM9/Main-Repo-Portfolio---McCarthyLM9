@@ -209,19 +209,32 @@ class BinarySearchTree:
 
 
 def main():
-    """Main program implementation to show how BST works"""
+    """Interactive main program for user-driven BST operations"""
     bst = BinarySearchTree()
 
-    # Inserting nodes
-    for val in [50, 30, 70, 20, 40, 60, 80]:
-        bst.insert(val)
+    print("== Binary Search Tree Program ==")
 
-    print("Tree structure after insertion:")
+    # Insert values
+    while True:
+        user_input = input(
+            "Enter integers to insert (comma-separated) or 'done' to finish: "
+        ).strip()
+        if user_input.lower() == 'done':
+            break
+        try:
+            values = [int(val.strip()) for val in user_input.split(',')]
+            for val in values:
+                bst.insert(val)
+        except ValueError:
+            print("Invalid input. Please enter integers only.")
+
+    print("\nTree structure after insertion:")
     bst.render_graphviz(
         filename=r"C:\Users\lwmcc\Downloads\bst_graphviz_before"
     )
 
-    print("\nInorder:", bst.inorder_traversal())
+    print("\nTraversals:")
+    print("Inorder:", bst.inorder_traversal())
     print("Preorder:", bst.preorder_traversal())
     print("Postorder:", bst.postorder_traversal())
     print("Level-order:", bst.level_order_traversal())
@@ -232,17 +245,50 @@ def main():
     print("Leaf nodes:", bst.count_leaves())
     print("Balanced:", bst.is_balanced())
 
-    # Delete a node
-    print("\nDeleting 70...")
-    bst.delete(70)
+    # Delete values
+    while True:
+        del_input = input(
+            "\nEnter a value to delete or type 'done' to finish: "
+        ).strip()
+        if del_input.lower() == 'done':
+            break
+        try:
+            val = int(del_input)
+            mode = input(
+                "Delete (f)irst occurrence or (a)ll? [f/a]: "
+            ).strip().lower()
+            if mode == 'f':
+                if bst.search(val):
+                    bst.delete(val)
+                    print(f"Deleted first occurrence of {val}.")
+                else:
+                    print(f"{val} not found in the tree.")
+            elif mode == 'a':
+                count = 0
+                while bst.search(val):
+                    bst.delete(val)
+                    count += 1
+                if count:
+                    print(f"Deleted all {count} occurrence(s) of {val}.")
+                else:
+                    print(f"{val} not found in the tree.")
+            else:
+                print("Invalid option. Use 'f' or 'a'.")
+        except ValueError:
+            print("Invalid input. Please enter an integer.")
 
-    print("Tree structure after deletion:")
+    print("\nTree structure after deletion:")
     bst.render_graphviz(
         filename=r"C:\Users\lwmcc\Downloads\bst_graphviz_after"
     )
 
-    print("\nInorder:", bst.inorder_traversal())
+    # Final state
+    print("\nFinal Inorder:", bst.inorder_traversal())
     print("Balanced:", bst.is_balanced())
+
+    if bst.count_nodes() == 0:
+        print("The tree is now empty.")
+    print("Thank you for using the BST program!")
 
 
 if __name__ == "__main__":
