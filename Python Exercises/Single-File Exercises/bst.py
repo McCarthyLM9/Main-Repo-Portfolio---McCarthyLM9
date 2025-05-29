@@ -226,7 +226,10 @@ def main():
         "Enter output directory for Graphviz images "
         "(leave blank for current directory): "
     ).strip()
-    output_dir = Path(user_dir) if user_dir else Path.cwd()
+    output_dir = (
+        Path(user_dir).expanduser().resolve()
+        if user_dir else Path.cwd()
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
 
     bst = BinarySearchTree()
