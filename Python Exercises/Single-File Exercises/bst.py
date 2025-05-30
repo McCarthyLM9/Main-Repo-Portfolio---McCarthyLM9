@@ -222,15 +222,20 @@ class BinarySearchTree:
 # Utilizes Graphviz visualization before/after operations
 def main():
     """Interactive main program for user-driven BST operations"""
-    user_dir = input(
-        "Enter output directory for Graphviz images "
-        "(leave blank for current directory): "
-    ).strip()
-    output_dir = (
-        Path(user_dir).expanduser().resolve()
-        if user_dir else Path.cwd()
-    )
-    output_dir.mkdir(parents=True, exist_ok=True)
+    while True:
+        try:
+            user_dir = input(
+                "Enter output directory for Graphviz images "
+                "(leave blank for current directory): "
+            ).strip()
+            output_dir = (
+                Path(user_dir).expanduser().resolve()
+                if user_dir else Path.cwd()
+            )
+            output_dir.mkdir(parents=True, exist_ok=True)
+            break
+        except (OSError, ValueError) as e:
+            print(f"Error creating directory: {e}. Please try again.")
 
     bst = BinarySearchTree()
     print("== Binary Search Tree Program ==")
@@ -242,8 +247,14 @@ def main():
         ).strip()
         if user_input.lower() == 'done':
             break
+        if not user_input:
+            print("Input cannot be empty. Please enter integers or 'done'.")
+            continue
         try:
             values = [int(val.strip()) for val in user_input.split(',')]
+            if not values:
+                print("No valid integers found. Try again.")
+                continue
             values.sort()
             balanced_values = bst.balanced_insert_order(values)
             for val in balanced_values:
@@ -275,30 +286,37 @@ def main():
         ).strip()
         if del_input.lower() == 'done':
             break
+        if not del_input:
+            print("Input cannot be empty. Please enter a value or 'done'.")
+            continue
         try:
             val = int(del_input)
+        except ValueError:
+            print("Invalid input. Please enter an integer.")
+            continue
+        while True:
             mode = input(
                 "Delete (f)irst occurrence or (a)ll? [f/a]: "
             ).strip().lower()
-            if mode == 'f':
-                if bst.search(val):
-                    bst.delete(val)
-                    print(f"Deleted first occurrence of {val}.")
-                else:
-                    print(f"{val} not found in the tree.")
-            elif mode == 'a':
-                count = 0
-                while bst.search(val):
-                    bst.delete(val)
-                    count += 1
-                if count:
-                    print(f"Deleted all {count} occurrence(s) of {val}.")
-                else:
-                    print(f"{val} not found in the tree.")
+            if mode in ('f', 'a'):
+                break
             else:
-                print("Invalid option. Use 'f' or 'a'.")
-        except ValueError:
-            print("Invalid input. Please enter an integer.")
+                print("Invalid option. Please enter 'f' or 'a'.")
+        if mode == 'f':
+            if bst.search(val):
+                bst.delete(val)
+                print(f"Deleted first occurrence of {val}.")
+            else:
+                print(f"{val} not found in the tree.")
+        else:
+            count = 0
+            while bst.search(val):
+                bst.delete(val)
+                count += 1
+            if count:
+                print(f"Deleted all {count} occurrence(s) of {val}.")
+            else:
+                print(f"{val} not found in the tree.")
 
     print("\nTree structure after deletion:")
     bst.render_graphviz(
