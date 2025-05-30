@@ -2,6 +2,7 @@
    Requires ffmpeg for audio/video merging (separately installed)
 """
 from pathlib import Path
+import subprocess
 import yt_dlp
 
 
@@ -53,17 +54,52 @@ def download_video(url, output_dir):
     ydl_opts = {
         'format': 'bestvideo+bestaudio/best',
         'outtmpl': str(output_dir / '%(title)s.%(ext)s'),
+        'restrictfilenames': True
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
+            result = ydl.extract_info(url, download=True)
+            filename = ydl.prepare_filename(result)
         print(f"\nDownload complete!\nSaved to: {output_dir}")
+        if not filename.endswith('.mp4'):
+            mp4_file = Path(filename).with_suffix('.mp4')
+            print(f"Converting to MP4: {mp4_file.name}")
+            subprocess.run([
+                'ffmpeg', '-y',
+                '-loglevel', 'fatal',
+                '-i', filename,
+                '-c:v', 'copy',
+                '-c:a', 'aac',
+                '-b:a', '320k',
+                str(mp4_file)
+            ], check=True)
+            print(f"Conversion complete: {mp4_file.name}")
+            while True:
+                delete_original = input(
+                    "Do you want to delete the original file? (y/n): "
+                ).strip().lower()
+                if delete_original == 'y':
+                    try:
+                        Path(filename).unlink()
+                        print(f"Deleted original file: {filename}")
+                    except OSError as e:
+                        print(f"Error deleting original file: {e}")
+                    break
+                elif delete_original == 'n':
+                    print("Original file retained.")
+                    break
+                else:
+                    print("Invalid input. Please enter 'y' or 'n'.")
     except yt_dlp.utils.DownloadError as e:
         print(f"\nDownload failed: {e}")
     except yt_dlp.utils.UnsupportedError as e:
         print(f"\nUnsupported video or URL: {e}")
     except yt_dlp.utils.ExtractorError as e:
         print(f"\nFailed to extract video info: {e}")
+    except subprocess.CalledProcessError as e:
+        print(f"\nFFmpeg conversion failed: {e}")
+    except OSError as e:
+        print(f"\nError deleting original file: {e}")
     except KeyboardInterrupt:
         print("\nDownload interrupted by user. Exiting...")
         exit(1)
