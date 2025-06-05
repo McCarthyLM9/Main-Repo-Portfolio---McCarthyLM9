@@ -1,11 +1,5 @@
 """Combinations (Discrete Mathematics)"""
-
-
-def factorial(n):
-    """Factorial recursive function"""
-    if n == 0 or n == 1:
-        return 1
-    return n * factorial(n - 1)
+from math import factorial
 
 
 def ncr(n, r):

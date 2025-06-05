@@ -1,18 +1,5 @@
 """This module calculates the number of permutations (nPr)."""
-
-
-def factorial(n):
-    """Compute the factorial of a non-negative integer n.
-
-    Args:
-        n (int): A non-negative integer
-
-    Returns:
-        int: The factorial of n
-    """
-    if n == 0 or n == 1:
-        return 1
-    return n * factorial(n - 1)
+from math import factorial
 
 
 def npr(n, r):
