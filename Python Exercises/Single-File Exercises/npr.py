@@ -36,13 +36,10 @@ def main():
     except ValueError:
         print("Invalid input: Please enter integers.")
         return 1
-
     if n < r or n < 0 or r < 0:
         print("Invalid input: n must be >= r and both must be non-negative.")
         return 1
-
     print(f"nPr: {npr(n, r)}")
-    return 0
 
 
 if __name__ == "__main__":
